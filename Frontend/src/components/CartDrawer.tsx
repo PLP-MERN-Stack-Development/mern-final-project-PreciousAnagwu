@@ -1,0 +1,98 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { useCartStore } from "@/stores/cartStore";
+
+export const CartDrawer = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const { items, isLoading, updateQuantity, removeItem, checkout } = useCartStore();
+
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleCheckout = () => {
+    checkout(email);
+  };
+
+  return (
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
+        <Button variant="outline" size="icon" className="relative">
+          <ShoppingCart className="h-5 w-5" />
+          {totalItems > 0 && (
+            <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full flex items-center justify-center text-xs">
+              {totalItems}
+            </Badge>
+          )}
+        </Button>
+      </SheetTrigger>
+
+      <SheetContent className="w-full sm:max-w-lg flex flex-col h-full">
+        <SheetHeader>
+          <SheetTitle>Shopping Cart</SheetTitle>
+          <SheetDescription>
+            {totalItems === 0 ? "Your cart is empty" : `${totalItems} item${totalItems !== 1 ? 's' : ''} in your cart`}
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="flex flex-col flex-1 pt-6 min-h-0">
+          {items.length === 0 ? (
+            <div className="flex-1 flex items-center justify-center">
+              <ShoppingCart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground">Your cart is empty</p>
+            </div>
+          ) : (
+            <>
+              <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+                {items.map(item => (
+                  <div key={item.id} className="flex gap-4 p-2">
+                    <img src={item.imageUrl} alt={item.title} className="w-16 h-16 object-cover rounded-md" />
+                    <div className="flex-1">
+                      <h4 className="font-medium truncate">{item.title}</h4>
+                      <p className="font-semibold">${item.price.toFixed(2)}</p>
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button variant="outline" size="icon" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                          <Minus className="h-3 w-3" />
+                        </Button>
+                        <span className="w-8 text-center">{item.quantity}</span>
+                        <Button variant="outline" size="icon" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                          <Plus className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex-shrink-0 pt-4 border-t space-y-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                />
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-semibold">Total</span>
+                  <span className="text-xl font-bold">${totalPrice.toFixed(2)}</span>
+                </div>
+                <Button onClick={handleCheckout} className="w-full" disabled={items.length === 0 || isLoading}>
+                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <ExternalLink className="w-4 h-4 mr-2" />}
+                  {isLoading ? "Processing..." : "Pay Now"}
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+};
