@@ -1,0 +1,32 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main ]     # run workflow when code is pushed to main branch
+  pull_request:
+    branches: [ main ]     # also run when a pull request targets main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Lint code
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx
+
+      - name: Build project
+        run: npm run build --if-present
