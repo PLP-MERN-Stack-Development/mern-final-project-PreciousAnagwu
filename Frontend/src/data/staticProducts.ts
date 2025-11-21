@@ -9,7 +9,7 @@ export const staticProducts = [
   },
   {
     id: "n95-masks",
-    title: "N95 Face Masks (Pack of 20)",
+    title: "N95 Face Masks (Pack of 10)",
     description: "Certified N95 masks for protection against pollutants and viruses.",
     price: 29.99,
     imageUrl: "/images/n95-masks.png",
