@@ -4,9 +4,29 @@ A full-stack **MERN platform** supporting **SDG 13 – Climate Action**, enablin
 ## 🔗 LIVE LINKS
 **Frontend Live URL:** [Lovable Climate web🌿](https://lovableclimate.vercel.app/)  
 
-**Backend API URL:** [Lovable Climate API🌿](https://lovableclimate-project.onrender.com)
+**Backend API URL:** [Lovable Climate API🌿](https://lovableclimate-project.onrender.com) 
 
 **Pitch Deck:** [Lovable Climate Pitch🌿](https://drive.google.com/drive/folders/1c5vtwqrSoHSp3FGxspBwQZccIAwMcVHV?usp=sharing)
+
+## LIVE APP KEY FEATURES SCREENSHOT
+
+### Home Page
+![Home Page](./Lovable_Climate_app.png)
+
+### Environmental Report Page
+![Report Page](./EnvironmentalReporting.png)
+
+### Interactive Map
+![Interactive Map](./ClimateMap.png)
+
+### Air Qaulity Checker
+![Air Quality](./AirQuality.png)
+
+### Climate Products Shop
+![Climate Shop](./ClimateShop.png)
+
+### Climate Action - SDG 13 Page
+![SDG13 Page](./ClimateAction.png)
 
 ## 📌 TABLE OF CONTENTS
 - Features
