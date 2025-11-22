@@ -65,7 +65,8 @@ export const useCartStore = create<CartStore>()(
           return;
         }
 
-        const totalAmount = get().items.reduce((sum, item) => sum + item.price * item.quantity, 0) * 100; // kobo
+        const NGN_RATE = 1480; // e.g., 1 USD = 1000 NGN
+        const totalAmount = get().items.reduce((sum, item) => sum + item.price * item.quantity * NGN_RATE, 0) * 100; // kobo
         const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
         
          // ✅ Debug logs added
